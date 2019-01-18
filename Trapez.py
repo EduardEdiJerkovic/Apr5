@@ -5,7 +5,7 @@ import copy
 
 def trapez(A=Matrix([[0, 0], [0, 0]]), B=Matrix([[0, 0], [0, 0]]), x0=Matrix([[0], [0]]), T=0.01, t_max=0.1,):
     print("------------ Metoda Trapez ------------")
-    R = Matrix.inverz(Matrix.getI(A.columns_count()) - A * T / 2) * (Matrix.getI(A.columns_count()) + A * T / 2)
+    R = Matrix.inverse(getI(A.columns_count()) - A * T / 2) * (getI(A.columns_count()) + A * T / 2)
     next_x = lambda x: R * x
     i = 0
     t = T

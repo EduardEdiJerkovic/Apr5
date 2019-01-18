@@ -28,3 +28,4 @@ tmp/**
 .python-version
 .vs/
 .vscode/
+.idea
