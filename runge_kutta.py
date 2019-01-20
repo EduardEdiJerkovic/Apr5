@@ -1,6 +1,7 @@
-from Matrix import Matrix
+from matrix import Matrix
 import math
 import copy
+
 
 def real_value(x, t, i):
     x1 = x[0, 0]
@@ -9,33 +10,36 @@ def real_value(x, t, i):
     r1 = x1 * math.cos(t) + x2 * math.sin(t)
     r2 = x2 * math.cos(t) - x1 * math.sin(t)
 
-    print("REAL t =", t, "X" + str(i) + ":", Matrix([[r1], [r2]]))
+    print(f"Real: t = {t} X {i}: {Matrix([[r1], [r2]])}")
+
     return Matrix([[r1], [r2]])
 
-def runge_kutta(A=Matrix([[0, 0], [0, 0]]), B=Matrix([[0, 0], [0, 0]]), x0=Matrix([[0], [0]]), T=0.01, t_max=0.1, real_value=False):
-    print("------------ Metoda Runge-Kutta ------------")
+
+def next_x(A, x, T):
+    return A * x + (x + T * A * x)
+
+
+def runge_kutta(A, B, x0, T=0.01, t_max=0.1, real_value_flag=False):
+    print("------------ Method Runge-Kutta ------------")
     f = lambda x: A * x
-    m1 = lambda x: f(x)
-    m2 = lambda x: f(x + T * m1(x) / 2)
-    m3 = lambda x: f(x + T * m2(x) / 2)
-    m4 = lambda x: f(x + T * m3(x))
+    m1 = lambda x: f(x) + B
+    m2 = lambda x: f(x + T * m1(x) / 2) + B
+    m3 = lambda x: f(x + T * m2(x) / 2) + B
+    m4 = lambda x: f(x + T * m3(x)) + B
     next_x = lambda x: x + T * (m1(x) + 2 * m2(x) + 2 * m3(x) + m4(x)) / 6
 
     i = 0
-    t = T
+    t = 0
     xr = copy.copy(x0)
-    x = copy.copy(x0)
-    print("SIMU t =", t, "X" + str(i) + ":", x)
-    while(True):
+    xx = copy.copy(x0)
+    print(f"t = {t} X {i}: {xx}")
+    while True:
         t += T
-        if (t >= t_max):
+        if t >= t_max:
             return
-        x = next_x(x)
+        xx = next_x(xx)
         i += 1
-        if (i % 10 == 0):
-            print("SIMU t =", t, "X" + str(i) + ":", x)
-        if (real_value):
-            xr = real_value(xr, t, i)
-
-
-
+        if i % 1 == 0:
+            print(f"t = {t} X {i}: {xx}")
+        if real_value_flag:
+            xr = real_value(xr, T, i)

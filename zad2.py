@@ -1,4 +1,4 @@
-from Matrix import Matrix
+from matrix import Matrix
 
 b = Matrix([[4, -5, -2], [5, -6, -2], [-8, 9, 3]])
 
